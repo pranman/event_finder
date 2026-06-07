@@ -5,93 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Toronto Weekend — {{ digest_label }}</title>
   <style>
-    /* ── Reset & Base ─────────────────────────────────────── */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #0f0f13;
+      background: #f4f4f7;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: #e2e2e8;
-      padding: 0;
+      color: #1a1a2e;
+      padding: 24px 16px 48px;
     }
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
 
-    /* ── Wrapper ──────────────────────────────────────────── */
     .wrapper {
-      max-width: 640px;
+      max-width: 620px;
       margin: 0 auto;
-      padding: 0 16px 48px;
     }
 
-    /* ── Header ──────────────────────────────────────────── */
+    /* ── Header ── */
     .header {
-      background: linear-gradient(135deg, #6c63ff 0%, #e040fb 50%, #ff6584 100%);
-      border-radius: 0 0 24px 24px;
-      padding: 40px 32px 32px;
+      background: linear-gradient(135deg, #6c63ff 0%, #e040fb 100%);
+      border-radius: 20px;
+      padding: 36px 32px 32px;
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .header-eyebrow {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      opacity: 0.8;
+      color: rgba(255,255,255,0.75);
       margin-bottom: 8px;
-      color: #fff;
     }
     .header-title {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
       color: #fff;
-      line-height: 1.1;
-      margin-bottom: 10px;
+      line-height: 1.15;
+      margin-bottom: 6px;
     }
-    .header-subtitle {
+    .header-sub {
       font-size: 14px;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 16px;
     }
-    .header-meta {
+    .header-pill {
       display: inline-block;
-      margin-top: 16px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.2);
       border-radius: 100px;
-      padding: 5px 16px;
+      padding: 5px 18px;
       font-size: 12px;
+      font-weight: 600;
       color: #fff;
     }
 
-    /* ── Top Picks ────────────────────────────────────────── */
+    /* ── Section label ── */
     .section-label {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: #9d9dbd;
+      color: #888;
       margin-bottom: 12px;
     }
-    .top-picks-grid {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
+
+    /* ── Top pick cards ── */
+    .top-picks { margin-bottom: 32px; }
     .top-pick-card {
-      background: linear-gradient(135deg, #1e1e2e 0%, #252535 100%);
-      border: 1px solid #6c63ff55;
-      border-radius: 16px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #e8e8f0;
       overflow: hidden;
       display: flex;
-      align-items: stretch;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
     .top-pick-accent {
-      width: 4px;
+      width: 5px;
       background: linear-gradient(180deg, #6c63ff, #e040fb);
       flex-shrink: 0;
     }
-    .top-pick-body {
-      padding: 16px 18px;
-      flex: 1;
-    }
+    .top-pick-body { padding: 16px 18px; flex: 1; }
     .top-pick-badges {
       display: flex;
       gap: 6px;
@@ -106,122 +98,39 @@
       padding: 3px 9px;
       border-radius: 100px;
     }
-    .badge-tech     { background: #1e3a5f; color: #60b4ff; }
-    .badge-concerts { background: #3a1e40; color: #d87aff; }
-    .badge-running  { background: #1e3a25; color: #5dcc7a; }
-    .badge-other    { background: #2d2d2d; color: #aaaaaa; }
-    .badge-zone     { background: #1e2a3a; color: #7aafd8; }
-    .badge-free     { background: #1e3a25; color: #5dcc7a; }
+    .badge-tech     { background: #e8f0ff; color: #3366cc; }
+    .badge-concerts { background: #f5e8ff; color: #8833cc; }
+    .badge-running  { background: #e8f8ee; color: #2a9a4e; }
+    .badge-other    { background: #f0f0f0; color: #666; }
+    .badge-zone     { background: #f0f4f8; color: #4477aa; }
+    .badge-free     { background: #e8f8ee; color: #2a9a4e; }
     .top-pick-title {
       font-size: 16px;
       font-weight: 700;
-      color: #f0f0f8;
+      color: #1a1a2e;
       margin-bottom: 5px;
       line-height: 1.3;
     }
     .top-pick-meta {
       font-size: 12px;
-      color: #8888aa;
+      color: #888;
     }
     .top-pick-meta span + span::before { content: " · "; }
 
-    /* ── Category Section ─────────────────────────────────── */
-    .cat-section { margin-bottom: 36px; }
-    .cat-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #2a2a3a;
-    }
-    .cat-emoji { font-size: 22px; }
-    .cat-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #f0f0f8;
-    }
-    .cat-count {
-      margin-left: auto;
-      font-size: 12px;
-      color: #666677;
-    }
-    .event-list { display: grid; gap: 8px; }
-    .event-row {
-      background: #1a1a26;
-      border: 1px solid #2a2a3a;
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      transition: border-color 0.2s;
-    }
-    .event-row:hover { border-color: #6c63ff66; }
-    .event-date-box {
-      background: #0f0f1a;
-      border-radius: 10px;
-      padding: 8px 10px;
-      text-align: center;
-      flex-shrink: 0;
-      min-width: 48px;
-    }
-    .event-date-day {
-      font-size: 18px;
-      font-weight: 800;
-      color: #e040fb;
-      line-height: 1;
-    }
-    .event-date-mon {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #666677;
-      margin-top: 2px;
-    }
-    .event-info { flex: 1; min-width: 0; }
-    .event-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #e2e2f0;
-      margin-bottom: 4px;
-      line-height: 1.35;
-    }
-    .event-details {
-      font-size: 12px;
-      color: #7777aa;
-      margin-bottom: 6px;
-    }
-    .event-details span + span::before { content: " · "; }
-    .event-badges { display: flex; gap: 5px; flex-wrap: wrap; }
-    .event-link {
-      flex-shrink: 0;
-      align-self: center;
-      background: #1e1e3a;
-      border: 1px solid #6c63ff44;
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #9988ff;
-      white-space: nowrap;
-    }
-    .event-link:hover { background: #6c63ff22; }
-
-    /* ── Zone Summary ─────────────────────────────────────── */
+    /* ── Zone summary ── */
     .zone-section {
-      background: #16162a;
-      border: 1px solid #2a2a3a;
-      border-radius: 16px;
-      padding: 20px 24px;
-      margin-bottom: 36px;
+      background: #fff;
+      border: 1px solid #e8e8f0;
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 28px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .zone-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
     .zone-item {
       display: flex;
@@ -235,42 +144,111 @@
       background: #6c63ff;
       flex-shrink: 0;
     }
-    .zone-name { color: #b0b0cc; flex: 1; }
-    .zone-count {
+    .zone-name { color: #555; flex: 1; }
+    .zone-count { font-weight: 700; color: #6c63ff; }
+
+    /* ── Category sections ── */
+    .cat-section { margin-bottom: 28px; }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f4;
+    }
+    .cat-emoji { font-size: 20px; }
+    .cat-title { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+    .cat-count { margin-left: auto; font-size: 12px; color: #aaa; }
+
+    .event-row {
+      background: #fff;
+      border: 1px solid #e8e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .event-date-box {
+      background: #f8f8fc;
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 46px;
+    }
+    .event-date-day {
+      font-size: 18px;
+      font-weight: 800;
+      color: #6c63ff;
+      line-height: 1;
+    }
+    .event-date-mon {
+      font-size: 9px;
       font-weight: 700;
-      color: #e040fb;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      margin-top: 2px;
+    }
+    .event-info { flex: 1; min-width: 0; }
+    .event-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 3px;
+      line-height: 1.35;
+    }
+    .event-details {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .event-details span + span::before { content: " · "; }
+    .event-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+    .event-link {
+      flex-shrink: 0;
+      align-self: center;
+      background: #f4f2ff;
+      border: 1px solid #d8d4ff;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6c63ff;
+      white-space: nowrap;
     }
 
-    /* ── Footer ──────────────────────────────────────────── */
+    /* ── Footer ── */
     .footer {
       text-align: center;
       padding-top: 24px;
-      border-top: 1px solid #1e1e2e;
+      border-top: 1px solid #e8e8f0;
+      margin-top: 8px;
     }
-    .footer-text { font-size: 12px; color: #444455; line-height: 1.7; }
-    .footer-logo {
-      font-size: 14px;
-      font-weight: 700;
-      color: #6c63ff;
-      margin-bottom: 8px;
-    }
+    .footer-logo { font-size: 14px; font-weight: 700; color: #6c63ff; margin-bottom: 6px; }
+    .footer-text { font-size: 11px; color: #aaa; line-height: 1.8; }
+    .footer-text a { color: #6c63ff; }
   </style>
 </head>
 <body>
   <div class="wrapper">
 
-    <!-- ── Header ─────────────────────────────────────── -->
+    <!-- Header -->
     <div class="header">
       <div class="header-eyebrow">📍 Fort York · Toronto</div>
       <div class="header-title">Your Weekend Digest</div>
-      <div class="header-subtitle">{{ total_events }} events handpicked for you</div>
-      <div class="header-meta">{{ digest_label }} · {{ date_range }}</div>
+      <div class="header-sub">{{ total_events }} events handpicked for you</div>
+      <div class="header-pill">{{ digest_label }} &nbsp;·&nbsp; {{ date_range }}</div>
     </div>
 
-    <!-- ── Top Picks ──────────────────────────────────── -->
+    <!-- Top Picks -->
     {% if top_picks %}
-    <div class="section-label">⭐ Top Picks</div>
-    <div class="top-picks-grid">
+    <div class="top-picks">
+      <div class="section-label">⭐ Top Picks</div>
       {% for event in top_picks %}
       <a href="{{ event.url }}" style="display:block;">
         <div class="top-pick-card">
@@ -300,7 +278,7 @@
     </div>
     {% endif %}
 
-    <!-- ── Zone Summary ───────────────────────────────── -->
+    <!-- Zone summary -->
     {% if events_by_zone %}
     <div class="zone-section">
       <div class="section-label">🗺️ Events by Neighbourhood</div>
@@ -318,7 +296,7 @@
     </div>
     {% endif %}
 
-    <!-- ── Category Sections ──────────────────────────── -->
+    <!-- Category sections -->
     {% for cat_key, cat_cfg in category_config.items() %}
     {% set cat_events = events_by_category[cat_key] %}
     {% if cat_events %}
@@ -328,46 +306,44 @@
         <span class="cat-title">{{ cat_cfg.label }}</span>
         <span class="cat-count">{{ cat_events|length }} events</span>
       </div>
-      <div class="event-list">
-        {% for event in cat_events %}
-        <div class="event-row">
-          <div class="event-date-box">
-            <div class="event-date-day">{{ event.start_dt.strftime('%-d') }}</div>
-            <div class="event-date-mon">{{ event.start_dt.strftime('%b') }}</div>
-          </div>
-          <div class="event-info">
-            <div class="event-title">{{ event.title }}</div>
-            <div class="event-details">
-              <span>{{ event.time_label }}</span>
-              {% if event.venue_name %}<span>{{ event.venue_name }}</span>{% endif %}
-              {% if event.price != 'Unknown' %}<span>{{ event.price }}</span>{% endif %}
-            </div>
-            <div class="event-badges">
-              {% if event.location_zone.value != 'Unknown' %}
-              <span class="badge badge-zone">{{ event.location_zone.value }}</span>
-              {% endif %}
-              {% if event.is_free %}
-              <span class="badge badge-free">Free</span>
-              {% endif %}
-            </div>
-          </div>
-          {% if event.url %}
-          <a href="{{ event.url }}" class="event-link">View →</a>
-          {% endif %}
+      {% for event in cat_events %}
+      <div class="event-row">
+        <div class="event-date-box">
+          <div class="event-date-day">{{ event.start_dt.strftime('%-d') }}</div>
+          <div class="event-date-mon">{{ event.start_dt.strftime('%b') }}</div>
         </div>
-        {% endfor %}
+        <div class="event-info">
+          <div class="event-title">{{ event.title }}</div>
+          <div class="event-details">
+            <span>{{ event.time_label }}</span>
+            {% if event.venue_name %}<span>{{ event.venue_name }}</span>{% endif %}
+            {% if event.price != 'Unknown' %}<span>{{ event.price }}</span>{% endif %}
+          </div>
+          <div class="event-badges">
+            {% if event.location_zone.value != 'Unknown' %}
+            <span class="badge badge-zone">{{ event.location_zone.value }}</span>
+            {% endif %}
+            {% if event.is_free %}
+            <span class="badge badge-free">Free</span>
+            {% endif %}
+          </div>
+        </div>
+        {% if event.url %}
+        <a href="{{ event.url }}" class="event-link">View →</a>
+        {% endif %}
       </div>
+      {% endfor %}
     </div>
     {% endif %}
     {% endfor %}
 
-    <!-- ── Footer ─────────────────────────────────────── -->
+    <!-- Footer -->
     <div class="footer">
       <div class="footer-logo">events_finder 🗓️</div>
       <div class="footer-text">
         Generated {{ generated_at }}<br/>
         Sources: Luma · Eventbrite · Meetup · Songkick · BlogTO · Reddit<br/>
-        <a href="mailto:{{ user_email }}" style="color:#6c63ff;">Unsubscribe</a>
+        <a href="mailto:{{ user_email }}">Unsubscribe</a>
       </div>
     </div>
 
