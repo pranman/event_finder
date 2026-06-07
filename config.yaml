@@ -1,0 +1,263 @@
+# ──────────────────────────────────────────────
+# events_finder — User Preferences & Config
+# ──────────────────────────────────────────────
+
+user:
+  name: Maryam
+  email: moaddeli.m@gmail.com
+  home:
+    lat: 43.6385
+    lng: -79.4028
+    label: Fort York
+
+schedule:
+  # Every Thursday at 8:00 AM
+  cron: "0 8 * * 4"
+
+location:
+  city: Toronto
+  # Events within this many km of home are boosted
+  home_radius_km: 5.0
+  # Hard cutoff — ignore events beyond this distance
+  max_radius_km: 25.0
+  zones:
+    - name: "Fort York"
+      lat: 43.6385
+      lng: -79.4028
+      radius_km: 1.5
+    - name: "Waterfront West"
+      lat: 43.6328
+      lng: -79.4194
+      radius_km: 2.0
+    - name: "Queen/King West"
+      lat: 43.6452
+      lng: -79.4225
+      radius_km: 2.5
+    - name: "Downtown Core"
+      lat: 43.6510
+      lng: -79.3832
+      radius_km: 2.0
+    - name: "Midtown"
+      lat: 43.6635
+      lng: -79.4060
+      radius_km: 2.5
+
+categories:
+  tech:
+    label: "Tech & Startups"
+    emoji: "💻"
+    keywords:
+      - tech
+      - startup
+      - hackathon
+      - ai
+      - machine learning
+      - developer
+      - product
+      - saas
+      - founder
+      - vc
+      - venture
+      - pitch
+      - demo day
+      - engineering
+      - software
+      - data science
+      - blockchain
+      - web3
+      - cloud
+      - devops
+  concerts:
+    label: "Concerts & Live Music"
+    emoji: "🎵"
+    keywords:
+      - concert
+      - live music
+      - band
+      - dj
+      - festival
+      - music
+      - show
+      - performance
+      - nightclub
+      - venue
+      - artist
+      - gig
+      - jazz
+      - electronic
+      - indie
+      - hip hop
+      - r&b
+      - edm
+      - rap
+  running:
+    label: "Running & Fitness"
+    emoji: "🏃"
+    keywords:
+      - run
+      - running
+      - race
+      - marathon
+      - 5k
+      - 10k
+      - half marathon
+      - trail
+      - fitness
+      - workout
+      - yoga
+      - crossfit
+      - cycling
+      - swim
+      - triathlon
+      - obstacle
+      - strava
+      - lululemon
+      - athletics
+
+# ──────────────────────────────────────────────
+# Instagram accounts to watch for events
+# fast_alert: true → email immediately when a free event is found
+#             false → include in Thursday digest only
+# ──────────────────────────────────────────────
+instagram_accounts:
+  - handle: notarunclub.to
+    label: "Not a Run Club TO"
+    fast_alert: false        # recurring Monday runs — weekly digest is fine
+  - handle: wellnessto.events
+    label: "Wellness TO Events"
+    fast_alert: true         # free yoga fills fast — alert immediately
+
+# ──────────────────────────────────────────────
+# Specific Luma hosts/organizers to watch
+# (supplements the geo-based discovery)
+# ──────────────────────────────────────────────
+luma_hosts:
+  - id: usr-xHOhElhEccTFQVa
+    label: "Run + Paddle Club"
+
+# ──────────────────────────────────────────────
+# Specific Meetup groups to pin
+# (supplements the geo-based discovery)
+# ──────────────────────────────────────────────
+meetup_groups:
+  - urlname: visionary-publicspeaking-club
+    label: "Visionary Public Speaking Club"
+  - urlname: toronto-tech-social
+    label: "Toronto Tech Social"
+
+# ──────────────────────────────────────────────
+# Venue-specific scrapers
+# ──────────────────────────────────────────────
+ontario_place:
+  enabled: true
+  urls:
+    - https://ontarioplace.com/en/events/
+    - https://ontarioplace.com/en/whats-on/summerseries/
+    - https://ontarioplace.com/en/special_programs/yoga-in-trillium-park/
+  lat: 43.6289
+  lng: -79.4170
+
+harbourfront:
+  enabled: true
+  url: https://harbourfrontcentre.com/whats-on/
+  lat: 43.6387
+  lng: -79.3816
+
+waterfront_bia:
+  enabled: true
+  url: https://www.waterfrontbia.com/events/
+  lat: 43.6355
+  lng: -79.3860
+
+# ──────────────────────────────────────────────
+# Community sources near Fort York
+# Generic HTML + LLM-fallback scraper
+# ──────────────────────────────────────────────
+community_sources:
+  enabled: true
+  sources:
+    - name: "The Bentway"
+      url: https://thebentway.ca/
+      lat: 43.6378
+      lng: -79.4013
+    - name: "STACKT Market"
+      url: https://stacktmarket.com/events
+      lat: 43.6382
+      lng: -79.4003
+    - name: "Fort York"
+      url: https://www.fortyork.ca/
+      lat: 43.6385
+      lng: -79.4032
+    - name: "One Love Market"
+      url: https://onelovemarket.ca/
+      lat: 43.6389
+      lng: -79.4058
+    - name: "Waterfront Neighbourhood Centre"
+      url: https://waterfrontnc.ca/about/
+      lat: 43.6349
+      lng: -79.4104
+    - name: "FIFA World Cup 26 Toronto"
+      url: https://www.toronto.ca/explore-enjoy/festivals-events/fifa-world-cup-26/
+      lat: 43.6414
+      lng: -79.3891
+    - name: "Toronto FWC26 Host City"
+      url: https://www.torontofwc26.ca/
+      lat: 43.6414
+      lng: -79.3891
+    - name: "FIFA Toronto Host City"
+      url: https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/canada/toronto
+      lat: 43.6414
+      lng: -79.3891
+    - name: "City of Toronto Parks & Recreation"
+      url: https://www.toronto.ca/explore-enjoy/recreation/
+      lat: 43.6532
+      lng: -79.3832
+    - name: "City of Toronto Clubs & Social"
+      url: https://www.toronto.ca/explore-enjoy/parks-recreation/program-activities/arts-hobbies-interests/clubs-social/
+      lat: 43.6532
+      lng: -79.3832
+
+city_of_toronto:
+  enabled: true
+  url: https://www.toronto.ca/explore-enjoy/festivals-events/festivals-events-calendar/
+  lat: 43.6532
+  lng: -79.3832
+
+# ──────────────────────────────────────────────
+# Instant-alert settings (fast poll path)
+# ──────────────────────────────────────────────
+alerts:
+  enabled: true
+  worth_threshold: 0.55       # min relevance score to consider alerting
+  urgency_threshold: 0.6      # min urgency score to trigger instant alert
+  max_alerts_per_day: 2       # daily cap — extras queue into Thursday digest
+  fast_poll_cron: "0 9 * * *" # daily 9 AM
+  # Only these sources run on the fast path (others are weekly-only):
+  fast_sources:
+    - instagram:wellnessto.events
+    - luma_hosts
+    - meetup
+
+# Keywords that boost urgency score (checked against title + description)
+urgency_keywords:
+  - limited
+  - "limited spots"
+  - "spots left"
+  - rsvp
+  - "first come"
+  - "sign up"
+  - "register now"
+  - "filling up"
+  - "almost full"
+
+# Path to the persistent seen-events state store
+state_path: ./state/seen_events.json
+
+# Number of days ahead to fetch events
+lookahead_days: 10
+
+# Minimum relevance score to include in digest (0.0 - 1.0)
+min_relevance_score: 0.1
+
+# Max events per category in the digest
+max_events_per_category: 10
