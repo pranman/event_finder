@@ -45,7 +45,7 @@ class RedditScraper(BaseScraper):
         client_id = os.getenv("REDDIT_CLIENT_ID", "").strip()
         client_secret = os.getenv("REDDIT_CLIENT_SECRET", "").strip()
         user_agent = os.getenv(
-            "REDDIT_USER_AGENT", "events_finder/1.0 by moaddeli"
+            "REDDIT_USER_AGENT", "events_finder/1.0 by your-username"
         ).strip()
 
         if not client_id or not client_secret:

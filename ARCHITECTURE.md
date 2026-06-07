@@ -151,7 +151,7 @@ Thursday 8 AM (cron)
 │  • Top Picks  (worth ≥ 0.55)                                    │
 │  • Per-category cards                                           │
 │  • Zone map summary                                             │
-│  → moaddeli.m@gmail.com                                         │
+│  → your-email@gmail.com                                         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 

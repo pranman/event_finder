@@ -54,8 +54,8 @@ class TestEmailRenderer:
 
     def test_render_includes_user_email(self, digest):
         renderer = EmailRenderer()
-        html = renderer.render(digest, user_email="moaddeli.m@gmail.com")
-        assert "moaddeli.m@gmail.com" in html
+        html = renderer.render(digest, user_email="test@example.com")
+        assert "test@example.com" in html
 
     def test_render_is_valid_html(self, digest):
         renderer = EmailRenderer()
