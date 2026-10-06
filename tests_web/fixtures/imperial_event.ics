@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+PRODID:-//eluceo/ical//2.0/EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:96ebc8047f064682add4dc3989689578
+DTSTAMP:20261006T144851Z
+SUMMARY:Imperial Lates: Robots
+DESCRIPTION:At Imperial Lates: Robots\, you can get hands-on with all things robots.
+URL:https://www.imperial.ac.uk/events/213763/imperial-lates-robots/
+DTSTART;TZID=Europe/London:20261029T180000
+DTEND;TZID=Europe/London:20261029T210000
+LOCATION:College Main Entrance\, Exhibition Road\, Main Entrance\, South Ke
+ nsington Campus\, London\, SW7 2AZ\, United Kingdom
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:Europe/London
+BEGIN:STANDARD
+DTSTART:20261029T180000
+TZNAME:GMT
+TZOFFSETTO:+0000
+TZOFFSETFROM:+0000
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR
