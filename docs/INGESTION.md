@@ -35,3 +35,12 @@ An update can only be reconciled if the provider includes it in the fetched
 pages/feed. Absence never implies cancellation: pagination changes, retention
 limits and outages are not reliable cancellation signals. Revisit source URLs
 and inspect per-listing last-seen timestamps when investigating old records.
+
+## Source city changes (#8)
+
+Once a source has imported listings, its city is fixed in admin and model
+validation. To cover another city, create a new source instance with a distinct
+slug and that city's configuration. Do not update Source.city through bulk ORM
+operations. The importer checks provenance even for unchanged payloads and
+records a failure if a bulk edit has made a listing inconsistent. Restore the
+original source city before importing again.

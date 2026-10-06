@@ -50,4 +50,9 @@ credential-required platform setup explicit in the integration handover.
 
 ## Discovered issues
 
-None recorded yet. Add each discovered bug/gap here with its own issue and plan.
+- [#7 Conway publisher metadata](https://github.com/pranman/event_finder/issues/7): malformed JSON strings and duplicate index metadata; four fix/verification commits after source implementation.
+- [#8 Source city integrity](https://github.com/pranman/event_finder/issues/8): prevent city changes after import and validate unchanged provenance; four commits.
+- [#9 Reschedule reconciliation](https://github.com/pranman/event_finder/issues/9): retain known events moved outside discovery dates; four commits.
+- [#10 Reserved application routes](https://github.com/pranman/event_finder/issues/10): development reload endpoint precedence and reserved city slugs; four commits.
+
+These fixes are part of the delivery and must close before operations handover #6.
