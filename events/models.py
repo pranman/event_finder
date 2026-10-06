@@ -29,9 +29,14 @@ def validate_config(value):
         raise ValidationError("Source configuration must be a JSON object.")
 
 
+def validate_city_slug(value):
+    if value.lower() in {"admin", "__reload__", "static", "media"}:
+        raise ValidationError("This city slug is reserved for an application endpoint.")
+
+
 class City(models.Model):
     name = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=160, unique=True)
+    slug = models.SlugField(max_length=160, unique=True, validators=[validate_city_slug])
     country_code = models.CharField(max_length=2, validators=[country_code])
     timezone = models.CharField(max_length=64, default="UTC", validators=[validate_timezone])
     currency = models.CharField(max_length=3, blank=True, default="", validators=[currency_code])
