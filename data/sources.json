@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "name": "Conway Hall", "slug": "conway-hall-london", "city": "london",
+      "connector": "jsonld", "url": "https://www.conwayhall.org.uk/whats-on/",
+      "enabled": true, "interval_minutes": 360,
+      "config": {"link_selector": "a[href*=\"/whats-on/event/\"]", "max_details": 60, "categories": ["culture", "talks"]}
+    },
+    {
+      "name": "Imperial College London", "slug": "imperial-london", "city": "london",
+      "connector": "ical", "url": "https://www.imperial.ac.uk/whats-on/",
+      "enabled": true, "interval_minutes": 360,
+      "config": {"link_selector": "a[href^=\"/events/\"]", "calendar_suffix": "event.ics", "next_page_selector": "a#show-more", "max_pages": 3, "max_details": 60, "categories": ["science"]}
+    }
+  ]
+}
