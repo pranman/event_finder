@@ -156,10 +156,15 @@ def fetch(source, date_from, date_to):
     unique = {(event.external_id, event.start_date, event.start_time): event for event in results}
     counts = Counter(event.external_id for event in unique.values())
     events = []
+    known_ids = getattr(source, "known_external_ids", frozenset())
     for event in unique.values():
         if counts[event.external_id] > 1:
             suffix = f"#{event.start_date.isoformat()}T{event.start_time.isoformat() if event.start_time else 'date'}"
             event = replace(event, external_id=event.external_id + suffix)
-        if event.start_date <= date_to and (event.end_date or event.start_date) >= date_from:
+        overlaps_window = (
+            event.start_date <= date_to
+            and (event.end_date or event.start_date) >= date_from
+        )
+        if overlaps_window or event.external_id in known_ids:
             events.append(event)
     return events
