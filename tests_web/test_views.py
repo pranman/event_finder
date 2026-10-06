@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta, timezone as datetime_timezone
+from datetime import date, datetime, timezone as datetime_timezone
 from unittest.mock import patch
 
 from django.test import TestCase, override_settings
@@ -224,3 +224,10 @@ class CatalogueViewTests(TestCase):
         self.assertContains(response, 'for="id_q"')
         self.assertContains(response, 'href="#main-content"')
         self.assertContains(response, "Reset filters")
+
+    def test_filters_remain_available_without_javascript_and_validation_is_visible(self):
+        response = self.client.get(self.url, {"from": "invalid"})
+        self.assertContains(response, '<details class="filter-disclosure" data-mobile-collapse open>')
+        self.assertContains(response, '<div class="filter-errors" role="alert">')
+        self.assertContains(response, 'aria-invalid="true"')
+        self.assertContains(response, 'id="id_from_error"')

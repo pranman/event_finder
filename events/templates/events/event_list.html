@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Events in {{ city.name }} · Event Finder{% endblock %}
 {% block content %}
 <section class="city-hero">
@@ -7,7 +8,8 @@
 </section>
 <div class="catalogue-layout">
     <aside class="filter-sidebar" aria-labelledby="filter-heading">
-        <div class="section-label"><h2 id="filter-heading">Make it your day</h2><span aria-hidden="true">↘</span></div>
+        <details class="filter-disclosure" data-mobile-collapse open>
+        <summary class="section-label"><h2 id="filter-heading">Make it your day</h2><span class="filter-toggle" aria-hidden="true">＋</span></summary>
         <form method="get" class="filter-form" action="{% url 'events:city_list' city_slug=city.slug %}">
             {% if form.errors %}<div class="filter-errors" role="alert"><p>Please check your filters.</p>{{ form.non_field_errors }}</div>{% endif %}
             {% include "events/filter_field.html" with field=form.q %}
@@ -23,6 +25,7 @@
             <a class="reset-link" href="{% url 'events:city_list' city_slug=city.slug %}">Reset filters</a>
         </form>
         <p class="time-zone-note">Dates &amp; times are local to {{ city.name }}.<br><span>{{ city.timezone }}</span></p>
+        </details>
     </aside>
     <section class="event-results" aria-labelledby="results-heading">
         <div class="results-heading"><div><p class="eyebrow">Your next good plan</p><h2 id="results-heading">{% if range_start %}{{ range_start|date:"j M" }}{% if range_start != range_end %}<span class="date-dash">—</span>{{ range_end|date:"j M" }}{% endif %}<span class="range-year">{{ range_end|date:"Y" }}</span>{% else %}Let’s find your dates{% endif %}</h2></div><p class="result-count">{{ page_obj.paginator.count }} event{{ page_obj.paginator.count|pluralize }}</p></div>
@@ -52,4 +55,5 @@
         {% include "events/sources.html" %}
     </section>
 </div>
+<script src="{% static 'events/catalogue.js' %}" defer></script>
 {% endblock %}
