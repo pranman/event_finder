@@ -111,7 +111,9 @@ def parse_page(soup, page_url, source):
     results = []
     for script in soup.select('script[type="application/ld+json"]'):
         try:
-            data = json.loads(script.string or script.get_text())
+            # Some publishers emit literal line breaks inside description strings.
+            # strict=False accepts those characters without evaluating any code.
+            data = json.loads(script.string or script.get_text(), strict=False)
         except (ValueError, TypeError):
             continue
         results.extend(parse_event(node, page_url, source) for node in event_nodes(data))
