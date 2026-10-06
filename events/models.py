@@ -176,6 +176,14 @@ class Source(models.Model):
         super().clean()
         # JSONField treats an empty list as blank; it must still be an object.
         validate_config(self.config)
+        if (
+            self.pk
+            and type(self).objects.filter(pk=self.pk).exclude(city_id=self.city_id).exists()
+            and self.listings.exists()
+        ):
+            raise ValidationError({
+                "city": "A source with imported listings cannot change city. Create a new source for the other city."
+            })
 
 
 class SourceListing(models.Model):
