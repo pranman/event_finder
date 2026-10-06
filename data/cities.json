@@ -1,0 +1,14 @@
+{
+  "cities": [
+    {"name": "London", "slug": "london", "country_code": "GB", "timezone": "Europe/London", "currency": "GBP", "is_active": true}
+  ],
+  "categories": [
+    {"name": "Culture", "slug": "culture"},
+    {"name": "Science", "slug": "science"},
+    {"name": "Music", "slug": "music"},
+    {"name": "Talks", "slug": "talks"},
+    {"name": "Community", "slug": "community"},
+    {"name": "Fitness", "slug": "fitness"},
+    {"name": "Technology", "slug": "technology"}
+  ]
+}
