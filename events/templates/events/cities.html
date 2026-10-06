@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="city-hero">
+    <div><p class="eyebrow">Make room for a good plan</p><h1>Out there,<br><em>somewhere.</em></h1><p class="hero-copy">A new interest. A familiar place. An unexpectedly good evening.<br>Choose a city and see what’s happening.</p></div>
+    <div class="hero-emblem" aria-hidden="true"><span>GO<br>EXPLORE</span><b>↗</b></div>
+</section>
+<section class="city-grid" aria-label="Available cities">
+    {% for available_city in cities %}
+    <a class="city-card" href="{% url 'events:city_list' city_slug=available_city.slug %}"><span class="eyebrow">{{ available_city.country_code }}</span><h2>{{ available_city.name }}</h2><span>Explore events <span aria-hidden="true">↗</span></span></a>
+    {% empty %}
+    <div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h2>Good things are on their way.</h2><p>We’re getting the first city ready. Check back soon to discover what’s happening.</p></div>
+    {% endfor %}
+</section>
+{% endblock %}

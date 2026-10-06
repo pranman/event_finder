@@ -1,0 +1,5 @@
+<div class="filter-field">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% for error in field.errors %}<p class="field-error" id="{{ field.auto_id }}_error">{{ error }}</p>{% endfor %}
+</div>

@@ -1,0 +1,13 @@
+{% load tz %}
+{% if sources %}
+<details class="source-panel">
+    <summary><span>Where these events come from</span><span class="source-count">{{ sources|length }} source{{ sources|length|pluralize }} <span aria-hidden="true">＋</span></span></summary>
+    <p class="source-explainer">Listings are collected from these sources. Details can change; the organiser’s page has the latest information.</p>
+    <ul class="source-list">
+    {% for source in sources %}
+        <li><div><strong>{{ source.name }}</strong><span class="source-state{% if source.latest_status == 'failed' %} source-delayed{% endif %}">{% if source.latest_status == 'failed' %}Refresh delayed{% elif source.latest_status == 'running' %}Refreshing{% elif source.last_success_at %}Checked{% else %}Awaiting first import{% endif %}</span></div>
+            <p>{% if source.last_success_at %}Last successful check: <time datetime="{{ source.last_success_at|date:'c' }}">{{ source.last_success_at|timezone:city.timezone|date:"j M Y, H:i" }}</time> · {{ city.timezone }}{% else %}No successful check yet.{% endif %}</p></li>
+    {% endfor %}
+    </ul>
+</details>
+{% endif %}

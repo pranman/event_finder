@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Events in {{ city.name }} · Event Finder{% endblock %}
+{% block content %}
+<section class="city-hero">
+    <div><p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> A city full of possibilities</p><h1>{{ city.name }}<span class="title-stop">.</span></h1><p class="hero-copy">Find something worth stepping out for.<br>Discover what’s on, and make it your kind of day.</p></div>
+    <div class="hero-emblem" aria-hidden="true"><span>GO<br>EXPLORE</span><b>↗</b></div>
+</section>
+<div class="catalogue-layout">
+    <aside class="filter-sidebar" aria-labelledby="filter-heading">
+        <div class="section-label"><h2 id="filter-heading">Make it your day</h2><span aria-hidden="true">↘</span></div>
+        <form method="get" class="filter-form" action="{% url 'events:city_list' city_slug=city.slug %}">
+            {% if form.errors %}<div class="filter-errors" role="alert"><p>Please check your filters.</p>{{ form.non_field_errors }}</div>{% endif %}
+            {% include "events/filter_field.html" with field=form.q %}
+            {% include "events/filter_field.html" with field=form.period %}
+            <details class="custom-dates"{% if form.from.value or form.to.value or form.period.value == 'custom' %} open{% endif %}>
+                <summary>Choose specific dates <span aria-hidden="true">＋</span></summary>
+                <div class="date-fields">{% include "events/filter_field.html" with field=form.from %}{% include "events/filter_field.html" with field=form.to %}</div>
+                <p class="filter-hint">Specific dates override the period above.</p>
+            </details>
+            {% include "events/filter_field.html" with field=form.category %}
+            {% include "events/filter_field.html" with field=form.price %}
+            <button class="btn apply-button" type="submit">Find events <span aria-hidden="true">↗</span></button>
+            <a class="reset-link" href="{% url 'events:city_list' city_slug=city.slug %}">Reset filters</a>
+        </form>
+        <p class="time-zone-note">Dates &amp; times are local to {{ city.name }}.<br><span>{{ city.timezone }}</span></p>
+    </aside>
+    <section class="event-results" aria-labelledby="results-heading">
+        <div class="results-heading"><div><p class="eyebrow">Your next good plan</p><h2 id="results-heading">{% if range_start %}{{ range_start|date:"j M" }}{% if range_start != range_end %}<span class="date-dash">—</span>{{ range_end|date:"j M" }}{% endif %}<span class="range-year">{{ range_end|date:"Y" }}</span>{% else %}Let’s find your dates{% endif %}</h2></div><p class="result-count">{{ page_obj.paginator.count }} event{{ page_obj.paginator.count|pluralize }}</p></div>
+        <div class="event-list">
+        {% for event in page_obj %}
+            <article class="event-card">
+                <div class="event-date" aria-label="{{ event.start_date|date:'l j F Y' }}"><span>{{ event.start_date|date:"M" }}</span><b>{{ event.start_date|date:"d" }}</b><span>{{ event.start_date|date:"D" }}</span></div>
+                <div class="event-card-body">
+                    <div class="event-tags">{% for category in event.categories.all %}<span class="category-label">{{ category.name }}</span>{% endfor %}<span class="price-label{% if event.price_status == 'free' %} price-free{% endif %}">{% if event.price_status == 'free' %}Free{% elif event.price_status == 'paid' %}{% if event.price_amount != None %}{{ event.currency }} {{ event.price_amount|floatformat:"-2" }}{% else %}Paid{% endif %}{% else %}Price not listed{% endif %}</span></div>
+                    <h3><a href="{% url 'events:event_detail' city_slug=city.slug public_id=event.public_id %}">{{ event.title }}</a></h3>
+                    <p class="event-meta">{% if event.venue_name %}<span>{{ event.venue_name }}</span><span class="meta-separator" aria-hidden="true">·</span>{% endif %}<span>{% if event.start_time %}{{ event.start_time|time:"H:i" }}{% else %}Time not listed{% endif %}</span>{% if event.end_date and event.end_date != event.start_date %}<span class="meta-separator" aria-hidden="true">·</span><span>Until {{ event.end_date|date:"j M Y" }}</span>{% endif %}</p>
+                    {% if event.description %}<p class="event-description">{{ event.description|truncatechars:165 }}</p>{% endif %}
+                </div>
+                <span class="event-arrow" aria-hidden="true">↗</span>
+            </article>
+        {% empty %}
+            <div class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><h3>{% if form.errors %}A small change to your filters.{% else %}A little room for discovery.{% endif %}</h3><p>{% if form.errors %}Check the highlighted fields, then try your search again.{% else %}No events match these filters yet. Try a wider date range or a different interest.{% endif %}</p><a class="text-link" href="{% url 'events:city_list' city_slug=city.slug %}">See the next 30 days <span aria-hidden="true">↗</span></a></div>
+        {% endfor %}
+        </div>
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination" aria-label="Event pages">
+            {% if page_obj.has_previous %}<a class="btn page-link" href="?{% if pagination_query %}{{ pagination_query }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">← Previous</a>{% else %}<span class="page-disabled">← Previous</span>{% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a class="btn page-link" href="?{% if pagination_query %}{{ pagination_query }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Next →</a>{% else %}<span class="page-disabled">Next →</span>{% endif %}
+        </nav>
+        {% endif %}
+        {% include "events/sources.html" %}
+    </section>
+</div>
+{% endblock %}

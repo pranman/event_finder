@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load tz %}
+{% block title %}{{ event.title }} · {{ city.name }} · Event Finder{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'events:city_list' city_slug=city.slug %}">← What’s on in {{ city.name }}</a>
+<article class="event-detail">
+    <header class="detail-header"><p class="eyebrow">{{ city.name }} · {% for category in event.categories.all %}{{ category.name }}{% if not forloop.last %} / {% endif %}{% empty %}Out &amp; about{% endfor %}</p><h1>{{ event.title }}</h1>
+    {% if event.status != 'scheduled' %}<p class="status-notice" role="status">This event is {{ event.get_status_display|lower }}. Check the organiser’s listing for updates.</p>{% endif %}
+    </header>
+    <div class="detail-layout">
+        <div class="detail-story"><h2>About the event</h2>{% if event.description %}<div class="description-copy">{{ event.description|linebreaks }}</div>{% else %}<p class="muted-copy">There’s no description available yet. Visit the original listing for more details.</p>{% endif %}
+        {% if listings %}<section class="provenance"><p class="eyebrow">From the source</p><h2>Original listings</h2><ul>{% for listing in listings %}<li>{% if listing.safe_url %}<a class="text-link" href="{{ listing.safe_url }}" rel="noopener noreferrer">{{ listing.source.name }} <span aria-hidden="true">↗</span></a>{% else %}<strong>{{ listing.source.name }}</strong>{% endif %}<p>Last seen <time datetime="{{ listing.last_seen_at|date:'c' }}">{{ listing.last_seen_at|timezone:city.timezone|date:"j M Y, H:i" }}</time> · {{ city.timezone }}</p></li>{% endfor %}</ul></section>{% endif %}
+        {% include "events/sources.html" %}
+        </div>
+        <aside class="event-facts" aria-label="Event details">
+            <div class="fact"><span class="eyebrow">When</span><p><time datetime="{{ event.start_date|date:'Y-m-d' }}">{{ event.start_date|date:"l, j F Y" }}</time>{% if event.end_date and event.end_date != event.start_date %}<br>to <time datetime="{{ event.end_date|date:'Y-m-d' }}">{{ event.end_date|date:"l, j F Y" }}</time>{% endif %}</p><span>{% if event.start_time %}{{ event.start_time|time:"H:i" }}{% if event.end_time %} – {{ event.end_time|time:"H:i" }}{% endif %}{% else %}Time not listed{% endif %}</span><small>{{ city.timezone }}</small></div>
+            <div class="fact"><span class="eyebrow">Where</span><p>{% if event.venue_name %}{{ event.venue_name }}{% else %}Venue not listed{% endif %}</p>{% if event.address %}<div class="address">{{ event.address|linebreaksbr }}</div>{% endif %}<small>{{ city.name }}</small></div>
+            <div class="fact"><span class="eyebrow">Price</span><p>{% if event.price_status == 'free' %}Free{% elif event.price_status == 'paid' %}{% if event.price_amount != None %}{{ event.currency }} {{ event.price_amount|floatformat:"-2" }}{% else %}Paid · amount not listed{% endif %}{% else %}Price not listed{% endif %}</p></div>
+            {% if event_url %}<a class="btn apply-button" href="{{ event_url }}" rel="noopener noreferrer">Visit event website <span aria-hidden="true">↗</span></a>{% endif %}
+            <p class="booking-note">Check the original listing for availability, booking and any changes before you go.</p>
+        </aside>
+    </div>
+</article>
+{% endblock %}

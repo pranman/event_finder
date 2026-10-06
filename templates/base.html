@@ -4,36 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find something worth going out for. Browse upcoming events by city, date and interest, with links to the original organisers.">
     <link rel="icon" href="data:,">
-    <meta name="description" content="A Django starter template with Tailwind CSS, daisyUI components, and three working themes.">
-    <title>{% block title %}Django + Tailwind CSS + daisyUI Starter Template{% endblock %}</title>
-    <script src="{% static 'MainApp/js/demo.js' %}"></script>
+    <title>{% block title %}Event Finder · Good plans start here{% endblock %}</title>
     <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'events/catalogue.css' %}" rel="stylesheet">
     {% block extra_head %}{% endblock %}
 </head>
-<body class="min-h-screen bg-base-100 text-base-content antialiased">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-base-100 focus:p-3 focus:text-base-content">Skip to content</a>
-    <header class="border-b border-base-300">
-        <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
-            <a href="{% url 'home' %}" class="flex min-w-0 max-w-full items-center gap-3 text-sm font-semibold sm:text-base">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-lg text-primary-content" aria-hidden="true">d.</span>
-                <span class="min-w-0">Django <span class="font-normal">+ Tailwind CSS + daisyUI</span></span>
-            </a>
-            <nav aria-label="Main navigation" class="flex items-center gap-6 text-sm font-medium">
-                <a href="#components" class="link link-hover">Components</a>
-                <a href="#playground" class="link link-hover">Playground</a>
+<body class="min-h-screen antialiased catalogue-body">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header class="site-header">
+        <div class="site-width header-inner">
+            <a class="wordmark" href="{% url 'events:home' %}" aria-label="Event Finder home"><span class="brand-symbol" aria-hidden="true">e.</span>event finder<span class="brand-dot" aria-hidden="true">●</span></a>
+            <span class="header-note">Good plans start here.</span>
+            {% if cities|length > 1 %}
+            <nav class="city-nav" aria-label="Choose a city">
+                {% for available_city in cities %}<a href="{% url 'events:city_list' city_slug=available_city.slug %}"{% if available_city == city %} aria-current="page"{% endif %}>{{ available_city.name }}</a>{% endfor %}
             </nav>
+            {% endif %}
         </div>
     </header>
-    <main id="main-content" tabindex="-1" class="mx-auto max-w-6xl px-6">
-        {% block content %}{% endblock %}
-    </main>
-    <footer class="mt-16 border-t border-base-300">
-        <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-sm">
-            <p>Django + Tailwind CSS + daisyUI Starter Template</p>
-            <p>Built to be made your own.</p>
-        </div>
+    <main id="main-content" class="site-width" tabindex="-1">{% block content %}{% endblock %}</main>
+    <footer class="site-footer site-width">
+        <a class="footer-brand" href="{% url 'events:home' %}">event finder<span aria-hidden="true">↗</span></a>
+        <p>A little less scrolling. A little more going out.</p>
+        <p class="footer-note">Always check the organiser’s listing before you go.</p>
     </footer>
-    {% block scripts %}{% endblock %}
 </body>
 </html>
