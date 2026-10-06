@@ -134,7 +134,10 @@ def fetch(source, date_from, date_to):
     visited = set()
     with common.client() as client:
         for page_url, soup in common.index_pages(client, source):
-            results.extend(parse_page(soup, page_url, source))
+            # Index cards often repeat detail metadata without canonical URLs.
+            # In discovery mode, details are authoritative for content/identity.
+            if not selector:
+                results.extend(parse_page(soup, page_url, source))
             if selector:
                 for url in common.detail_links(soup, page_url, selector):
                     if url in visited or len(visited) >= max_details:
