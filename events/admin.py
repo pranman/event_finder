@@ -62,6 +62,12 @@ class SourceAdmin(admin.ModelAdmin):
     readonly_fields = ("last_success_at",)
     list_select_related = ("city",)
 
+    def get_readonly_fields(self, request, obj=None):
+        fields = super().get_readonly_fields(request, obj)
+        if obj and obj.pk and obj.listings.exists():
+            return (*fields, "city")
+        return fields
+
 
 @admin.register(SourceListing)
 class SourceListingAdmin(admin.ModelAdmin):
