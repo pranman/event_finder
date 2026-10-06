@@ -4,6 +4,7 @@ import logging
 from urllib.parse import urlsplit
 
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.text import slugify
 import httpx
@@ -77,6 +78,18 @@ def import_source(source, date_from: date, date_to: date, *, connector=None):
     run = ImportRun.objects.create(source=source)
     try:
         fetch = connector or CONNECTORS[source.connector]
+        # Discovery windows must not hide updates to events already shown in
+        # that window. Pass only the relevant provider identities to connectors;
+        # this is transient import context, never persisted source config.
+        known_ids = list(SourceListing.objects.filter(
+            source=source, event__start_date__lte=date_to,
+        ).filter(
+            Q(event__end_date__gte=date_from)
+            | Q(event__end_date__isnull=True, event__start_date__gte=date_from)
+        ).values_list("external_id", flat=True)[:10001])
+        if len(known_ids) > 10000:
+            raise ValueError("More than 10,000 known events require reconciliation; narrow its date window.")
+        source.known_external_ids = frozenset(known_ids)
         payloads = fetch(source, date_from, date_to)
         if len(payloads) > 10000:
             raise ValueError("A source returned more than 10,000 events; narrow its date window.")
@@ -87,7 +100,11 @@ def import_source(source, date_from: date, date_to: date, *, connector=None):
             payload.validate()
             if payload.external_id in unique and unique[payload.external_id] != payload:
                 raise ValueError("Connector returned conflicting records for one provider identifier.")
-            if payload.start_date <= date_to and (payload.end_date or payload.start_date) >= date_from:
+            overlaps_window = (
+                payload.start_date <= date_to
+                and (payload.end_date or payload.start_date) >= date_from
+            )
+            if overlaps_window or payload.external_id in source.known_external_ids:
                 unique[payload.external_id] = payload
         run.received_count = len(unique)
         observed_at = timezone.now()
