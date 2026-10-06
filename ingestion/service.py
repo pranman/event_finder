@@ -32,6 +32,8 @@ def _persist(source, payload, observed_at):
     listing = SourceListing.objects.select_related("event").filter(
         source=source, external_id=payload.external_id,
     ).first()
+    if listing and listing.event.city_id != source.city_id:
+        raise ValueError("Source city does not match its imported event; restore the original city or create a new source.")
     digest = payload.fingerprint()
     if listing and listing.payload_hash == digest:
         listing.last_seen_at = observed_at
