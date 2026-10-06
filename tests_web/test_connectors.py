@@ -104,6 +104,22 @@ class ConnectorTests(TestCase):
                 with self.assertRaises(exception):
                     jsonld.fetch(source(), date(2026, 10, 1), date(2026, 10, 31))
 
+    def test_publisher_literal_newlines_in_jsonld_descriptions(self):
+        # Conway Hall publishes a literal newline inside the JSON string.
+        value = markup({"@type": "Event", "name": "Poster workshop", "startDate": "2026-10-06", "description": "First line\nSecond line"}).replace("\\n", "\n")
+        with self.mock_http({"https://example.org/events": value}):
+            event, = jsonld.fetch(source(), date(2026, 10, 6), date(2026, 10, 6))
+        self.assertEqual(event.description, "First line Second line")
+
+    def test_index_cards_without_urls_do_not_duplicate_detail_events(self):
+        event = {"@type": "Event", "name": "Public concert", "startDate": "2026-10-10"}
+        pages = {"https://example.org/events": markup(event) + '<a href="/event/concert">Concert</a>',
+                 "https://example.org/event/concert": markup(event)}
+        with self.mock_http(pages):
+            result, = jsonld.fetch(source(link_selector="a"), date(2026, 10, 1), date(2026, 10, 31))
+        self.assertEqual(result.external_id, "https://example.org/event/concert")
+        self.assertEqual(result.url, "https://example.org/event/concert")
+
     def test_real_imperial_calendar_preserves_london_time_and_uid(self):
         url = "https://www.imperial.ac.uk/events/213763/imperial-lates-robots/event.ics"
         with self.mock_http({url: (FIXTURES / "imperial_event.ics").read_bytes()}):
