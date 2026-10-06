@@ -1,0 +1,29 @@
+{
+  "name": "django-tailwind-daisyui-theme",
+  "version": "1.0.0",
+  "description": "Tailwind CSS and daisyUI assets for the Django starter",
+  "scripts": {
+    "start": "npm run dev",
+    "build": "tailwindcss -i ./src/styles.css -o ../static/css/dist/styles.css --minify",
+    "dev": "tailwindcss -i ./src/styles.css -o ../static/css/dist/styles.css --watch=always",
+    "tailwindcss": "tailwindcss",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "axe-core": "4.14.0",
+    "daisyui": "5.7.47",
+    "tailwindcss": "4.3.3"
+  },
+  "private": true,
+  "engines": {
+    "node": "^22.10.0 || ^24.0.0",
+    "npm": ">=10 <12"
+  },
+  "overrides": {
+    "@tailwindcss/cli": {
+      "@parcel/watcher": "2.5.6"
+    }
+  }
+}
