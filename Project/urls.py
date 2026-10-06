@@ -20,8 +20,10 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('events.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
+
+# Keep explicit application endpoints ahead of the generic city namespace.
+urlpatterns.append(path("", include("events.urls")))
